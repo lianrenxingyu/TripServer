@@ -1,12 +1,19 @@
 package controller;
 
-import javax.servlet.*;
-
 import java.io.IOException;
-import java.util.*;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+
+import util.Log;
 
 public class LoginFilter implements Filter {
 
+	public static final String TAG = "LoginFilter"; 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 	    // 获取初始化参数
@@ -17,10 +24,14 @@ public class LoginFilter implements Filter {
 	}
 
 	@Override
-	public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2)
+	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
 			throws IOException, ServletException {
-		// TODO Auto-generated method stub
+		//TODO 执行验证登录的行为,如果成功则继续,否则跳转到登录界面
+		
+		Log.d(TAG,"登录验证过滤操作已经执行");
+		chain.doFilter(req, resp);
 
+		
 	}
 
 	@Override

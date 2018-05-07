@@ -12,7 +12,7 @@
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
-	
+
 	<!-- 过滤器 -->
 	<filter>
 		<filter-name>LoginFilter</filter-name>
@@ -26,15 +26,26 @@
 		<filter-name>LoginFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+
 	<!-- 登录 -->
 	<servlet>
 		<servlet-name>loginServlet</servlet-name>
-		<servlet-class>controller.LoginRegister</servlet-class>
+		<servlet-class>controller.Login</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>loginServlet</servlet-name>
 		<url-pattern>/login</url-pattern>
+	</servlet-mapping>
+
+	<!-- 注册 -->
+	<servlet>
+		<servlet-name>registerServlet</servlet-name>
+		<servlet-class>controller.Register</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>registerServlet</servlet-name>
+		<url-pattern>/register</url-pattern>
 	</servlet-mapping>
 </web-app>
