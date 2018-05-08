@@ -48,4 +48,19 @@
 		<servlet-name>registerServlet</servlet-name>
 		<url-pattern>/register</url-pattern>
 	</servlet-mapping>
+	
+	<!--添加朋友  -->
+		<servlet>
+		<servlet-name>addFriendServlet</servlet-name>
+		<servlet-class>controller.AddFriend</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>addFriendServlet</servlet-name>
+		<url-pattern>/addFriend</url-pattern>
+	</servlet-mapping>
+	
+	
+	
+	
 </web-app>
