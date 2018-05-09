@@ -173,7 +173,43 @@ public class SqlHelper {
 
 		return false;
 	}
+	
+	/**
+	 * 寻找token是否存在
+	 */
+	/**
+	 * 寻找特定用户Id
+	 */
+	public static boolean searchToken(String token) {
+		Connection connection = getConnect();
+		String sql = "select * from user_table where token = ?";
+		try {
+			PreparedStatement preStatement = connection.prepareStatement(sql);
+			preStatement.setString(1, token);
+			ResultSet rs = preStatement.executeQuery();
+			rs.last();
+			int rowCount = rs.getRow();
+			if (rowCount == 1) {
+				Log.d(TAG, "存在用户token : " + token);
+				return true;
+			} else {
+				Log.d(TAG, "不存在用户token : " + token);
+				return false;
+			}
 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		return false;
+	}
 	/**
 	 * 添加朋友,互相添加
 	 */

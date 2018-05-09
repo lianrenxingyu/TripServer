@@ -13,20 +13,6 @@
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
 
-	<!-- 过滤器 -->
-	<filter>
-		<filter-name>LoginFilter</filter-name>
-		<filter-class>controller.LoginFilter</filter-class>
-		<init-param>
-			<param-name></param-name>
-			<param-value></param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>LoginFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-
 	<!-- 登录 -->
 	<servlet>
 		<servlet-name>loginServlet</servlet-name>
@@ -60,6 +46,16 @@
 		<url-pattern>/addFriend</url-pattern>
 	</servlet-mapping>
 	
+		<!-- 验证用户身份 -->
+	<servlet>
+		<servlet-name>IdentifyUserServlet</servlet-name>
+		<servlet-class>controller.IdentifyUser</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>IdentifyUserServlet</servlet-name>
+		<url-pattern>/identify</url-pattern>
+	</servlet-mapping>
 	
 	
 	
