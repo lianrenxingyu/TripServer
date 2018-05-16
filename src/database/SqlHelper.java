@@ -1,14 +1,20 @@
 package database;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.alibaba.fastjson.JSON;
 import com.mysql.cj.xdevapi.Result;
 
+import bean.Message;
 import util.Log;
 
 public class SqlHelper {
@@ -173,7 +179,7 @@ public class SqlHelper {
 
 		return false;
 	}
-	
+
 	/**
 	 * 寻找token是否存在
 	 */
@@ -210,6 +216,7 @@ public class SqlHelper {
 
 		return false;
 	}
+
 	/**
 	 * 添加朋友,互相添加
 	 */
@@ -265,11 +272,88 @@ public class SqlHelper {
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return false;
 
 	}
 
+	/**
+	 * 插入新的message内容
+	 * 
+	 * @param userId
+	 * @param friendId
+	 * @param msg
+	 */
+	public static void insertNewMessage(String userId, String friendId, String msg) {
+		Connection connection = getConnect();
+		String sql = "insert into message_table  (userId,friendId,message,msgDate,msgTime) values (?,?,?,?,?)";
+		long timeMillis = System.currentTimeMillis();
+		Time time = new Time(timeMillis);
+		Date date = new Date(timeMillis);
+		PreparedStatement preStatement;
+		try {
+			preStatement = connection.prepareStatement(sql);
+			preStatement.setString(1, userId);
+			preStatement.setString(2, friendId);
+			preStatement.setString(3, msg);
+			preStatement.setDate(4, date);
+			preStatement.setTime(5, time);
+			preStatement.execute();
+			Log.d(TAG, "消息插入完成");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	/**
+	 * 返回用户收到的消息,json字符串
+	 * @param userId
+	 * @return
+	 */
+	public static String getNewMessage(String userId) {
+		Connection connection = getConnect();
+		String sql = "select * from message_table where friendId = ?";//要发送的消息
+		PreparedStatement preStatement;
+		List<Message> messageList = new ArrayList<Message>();
+		try {
+			preStatement = connection.prepareStatement(sql);
+			preStatement.setString(1, userId);
+			ResultSet resultSet = preStatement.executeQuery();
+			while(resultSet.next()) {
+				Message msg = new Message(resultSet.getString("userId"), resultSet.getString("friendId"), resultSet.getString("message"), 
+						resultSet.getDate("msgDate"), resultSet.getTime("msgTime"));
+				messageList.add(msg);
+			}
+			String msgJson = JSON.toJSONString(messageList);
+			return msgJson;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
 }

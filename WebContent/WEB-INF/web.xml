@@ -24,6 +24,13 @@
 		<url-pattern>/login</url-pattern>
 	</servlet-mapping>
 
+	<!-- Socket 监听初始化 load-on-startup 设置启动时加载-->
+	<servlet>
+		<servlet-name>initServlet</servlet-name>
+		<servlet-class>messageServer.InitMsgServer</servlet-class>
+		<load-on-startup>1</load-on-startup>	
+	</servlet>
+	
 	<!-- 注册 -->
 	<servlet>
 		<servlet-name>registerServlet</servlet-name>
@@ -34,9 +41,9 @@
 		<servlet-name>registerServlet</servlet-name>
 		<url-pattern>/register</url-pattern>
 	</servlet-mapping>
-	
-	<!--添加朋友  -->
-		<servlet>
+
+	<!--添加朋友 -->
+	<servlet>
 		<servlet-name>addFriendServlet</servlet-name>
 		<servlet-class>controller.AddFriend</servlet-class>
 	</servlet>
@@ -45,8 +52,8 @@
 		<servlet-name>addFriendServlet</servlet-name>
 		<url-pattern>/addFriend</url-pattern>
 	</servlet-mapping>
-	
-		<!-- 验证用户身份 -->
+
+	<!-- 验证用户身份 -->
 	<servlet>
 		<servlet-name>IdentifyUserServlet</servlet-name>
 		<servlet-class>controller.IdentifyUser</servlet-class>
@@ -56,7 +63,7 @@
 		<servlet-name>IdentifyUserServlet</servlet-name>
 		<url-pattern>/identify</url-pattern>
 	</servlet-mapping>
-	
-	
-	
+
+
+
 </web-app>
