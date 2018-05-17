@@ -37,9 +37,10 @@ public class HandleThread implements Runnable {
 			int len;
 			String userId = null;
 			boolean isOpen = true;//代表客户端的状态,是否开启
-			while (true) {
+			while (isOpen) {
 
 				Thread.sleep(2000);
+				Log.d(TAG, "等待读取数据");
 				len = inputStream.read(data);
 				if (len != -1) {
 					jsonStr = new String(data, 0, len);
@@ -48,10 +49,6 @@ public class HandleThread implements Runnable {
 					userId = object.getString("userId");
 					if (object.getString("friendId").equals("0")) {
 						Log.d(TAG, "客户端发送的初始化数据");
-					} if (object.get("friendId").equals("1")) {
-						isOpen = false;
-						Log.d(TAG, "客户端已经下线");
-						continue;
 					}else {
 						//接收到的数据写入操作
 						SqlHelper.insertNewMessage(object.getString("userId"), object.getString("friendId"),
@@ -64,6 +61,8 @@ public class HandleThread implements Runnable {
 					if (!jsonMsg.equals("[]")) {
 						dataOutputStream.write(jsonMsg.getBytes(Charset.forName("utf-8")));
 						System.out.println("返回数据成功");
+					}else {
+						Log.d(TAG, "没有数据需要返回");
 					}
 				}
 			}

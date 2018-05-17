@@ -342,6 +342,7 @@ public class SqlHelper {
 				messageList.add(msg);
 			}
 			String msgJson = JSON.toJSONString(messageList);
+			Log.d(TAG, msgJson);
 			return msgJson;
 		} catch (SQLException e) {
 			e.printStackTrace();
