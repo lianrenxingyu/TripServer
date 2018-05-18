@@ -342,6 +342,10 @@ public class SqlHelper {
 				messageList.add(msg);
 			}
 			String msgJson = JSON.toJSONString(messageList);
+			if(msgJson.equals("[]")) {
+				Log.d(TAG, "没有用用户"+userId+"的消息");
+				return null;
+			}
 			Log.d(TAG, msgJson);
 			return msgJson;
 		} catch (SQLException e) {
@@ -357,4 +361,29 @@ public class SqlHelper {
 		}
 		return null;
 	}
+	/**
+	 * 清空已经转发的消息
+	 */
+	public static void deleteNewMessage(String userId) {
+		Connection connection = getConnect();
+		String sql = "delete from message_table where friendId = ?";
+		PreparedStatement preStatement;
+		try {
+			preStatement = connection.prepareStatement(sql);
+			preStatement.setString(1, userId);
+			preStatement.execute();
+			Log.d(TAG, "已经删除用户"+userId+"的消息");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 }

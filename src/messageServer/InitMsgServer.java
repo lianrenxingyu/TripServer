@@ -44,6 +44,7 @@ public class InitMsgServer extends HttpServlet {
 					try {
 						if (server != null) {
 							server.close();
+							Log.d(TAG, "ServerSocket 监听线程结束");
 						}
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
